@@ -36,6 +36,7 @@ export default function Quiz({
     }
 
     const { data, error } = await supabase
+      .schema('classroom')
       .from('games')
       .update(updateData)
       .eq('id', gameId)
@@ -47,6 +48,7 @@ export default function Quiz({
   const onTimeUp = async () => {
     setIsAnswerRevealed(true)
     await supabase
+      .schema('classroom')
       .from('games')
       .update({
         is_answer_revealed: true,
@@ -69,7 +71,7 @@ export default function Quiz({
         'postgres_changes',
         {
           event: 'INSERT',
-          schema: 'public',
+          schema: 'classroom',
           table: 'answers',
           filter: `question_id=eq.${question.id}`,
         },

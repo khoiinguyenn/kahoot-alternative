@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  public: {
+  classroom: {
     Tables: {
       answers: {
         Row: {
@@ -276,7 +276,7 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "classroom">]
 
 export type Tables<
   PublicTableNameOrOptions extends

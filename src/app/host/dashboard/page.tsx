@@ -9,6 +9,7 @@ export default function Home() {
   useEffect(() => {
     const getQuizSets = async () => {
       const { data, error } = await supabase
+        .schema('classroom')
         .from('quiz_sets')
         .select(`*, questions(*, choices(*))`)
         .order('created_at', { ascending: false })
@@ -30,6 +31,7 @@ export default function Home() {
     }
 
     const { data, error } = await supabase
+      .schema('classroom')
       .from('games')
       .insert({
         quiz_set_id: quizSetId,

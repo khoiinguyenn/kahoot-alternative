@@ -72,7 +72,7 @@ export default function Home({
           'postgres_changes',
           {
             event: 'UPDATE',
-            schema: 'public',
+            schema: 'classroom',
             table: 'games',
             filter: `id=eq.${gameId}`,
           },

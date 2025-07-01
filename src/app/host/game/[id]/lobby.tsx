@@ -12,6 +12,7 @@ export default function Lobby({
 
   const onClickStartGame = async () => {
     const { data, error } = await supabase
+      .schema('classroom')
       .from('games')
       .update({ phase: 'quiz' })
       .eq('id', gameId)

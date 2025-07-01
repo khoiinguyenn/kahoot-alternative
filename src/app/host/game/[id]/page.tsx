@@ -36,6 +36,7 @@ export default function Home({
   useEffect(() => {
     const getQuestions = async () => {
       const { data: gameData, error: gameError } = await supabase
+        .schema('classroom')
         .from('games')
         .select()
         .eq('id', gameId)
@@ -46,6 +47,7 @@ export default function Home({
         return
       }
       const { data, error } = await supabase
+        .schema('classroom')
         .from('quiz_sets')
         .select(`*, questions(*, choices(*))`)
         .eq('id', gameData.quiz_set_id)
@@ -64,6 +66,7 @@ export default function Home({
 
     const setGameListner = async () => {
       const { data } = await supabase
+        .schema('classroom')
         .from('participants')
         .select()
         .eq('game_id', gameId)
@@ -76,7 +79,7 @@ export default function Home({
           'postgres_changes',
           {
             event: 'INSERT',
-            schema: 'public',
+            schema: 'classroom',
             table: 'participants',
             filter: `game_id=eq.${gameId}`,
           },
@@ -90,7 +93,7 @@ export default function Home({
           'postgres_changes',
           {
             event: 'UPDATE',
-            schema: 'public',
+            schema: 'classroom',
             table: 'games',
             filter: `id=eq.${gameId}`,
           },
@@ -104,6 +107,7 @@ export default function Home({
         .subscribe()
 
       const { data: gameData, error: gameError } = await supabase
+        .schema('classroom')
         .from('games')
         .select()
         .eq('id', gameId)

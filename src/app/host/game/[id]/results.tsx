@@ -25,6 +25,7 @@ export default function Results({
   useEffect(() => {
     const getResults = async () => {
       const { data, error } = await supabase
+        .schema('classroom')
         .from('game_results')
         .select()
         .eq('game_id', gameId)

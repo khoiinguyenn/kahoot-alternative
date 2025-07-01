@@ -31,6 +31,7 @@ export default function Lobby({
       }
 
       const { data: participantData, error } = await supabase
+        .schema('classroom')
         .from('participants')
         .select()
         .eq('game_id', gameId)
@@ -93,6 +94,7 @@ function Register({
       return
     }
     const { data: participant, error } = await supabase
+      .schema('classroom')
       .from('participants')
       .insert({ nickname, game_id: gameId })
       .select()

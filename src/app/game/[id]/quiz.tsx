@@ -39,12 +39,15 @@ export default function Quiz({
           ) * 1000
         )
 
-    const { error } = await supabase.from('answers').insert({
-      participant_id: playerId,
-      question_id: question.id,
-      choice_id: choice.id,
-      score,
-    })
+    const { error } = await supabase
+      .schema('classroom')
+      .from('answers')
+      .insert({
+        participant_id: playerId,
+        question_id: question.id,
+        choice_id: choice.id,
+        score,
+      })
     if (error) {
       setChosenChoice(null)
       alert(error.message)
