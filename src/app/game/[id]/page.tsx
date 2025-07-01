@@ -37,6 +37,7 @@ export default function Home({
 
   const getGame = async () => {
     const { data: game } = await supabase
+      .schema('classroom')
       .from('games')
       .select()
       .eq('id', gameId)
@@ -53,6 +54,7 @@ export default function Home({
 
   const getQuestions = async (quizSetId: string) => {
     const { data, error } = await supabase
+      .schema('classroom')
       .from('questions')
       .select(`*, choices(*)`)
       .eq('quiz_set_id', quizSetId)
@@ -76,7 +78,7 @@ export default function Home({
             table: 'games',
             filter: `id=eq.${gameId}`,
           },
-          (payload) => {
+          (payload: { new: Game }) => {
             if (!stateRef.current) return
 
             // start the quiz game
