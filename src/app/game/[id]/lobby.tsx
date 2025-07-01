@@ -93,16 +93,35 @@ function Register({
     if (!nickname) {
       return
     }
+
+    // Fetch user_id from Supabase auth
+    let userId: string | null = null
+    const { data: sessionData } = await supabase.auth.getSession()
+    if (sessionData.session) {
+      userId = sessionData.session.user.id
+    } else {
+      const { data, error } = await supabase.auth.signInAnonymously()
+      if (error) {
+        setSending(false)
+        return alert(error.message)
+      }
+      userId = data?.user?.id ?? null
+    }
+
+    if (!userId) {
+      setSending(false)
+      return alert('Could not get user ID')
+    }
+
     const { data: participant, error } = await supabase
       .schema('classroom')
       .from('participants')
-      .insert({ nickname, game_id: gameId })
+      .insert({ nickname, game_id: gameId, user_id: userId })
       .select()
       .single()
 
     if (error) {
       setSending(false)
-
       return alert(error.message)
     }
 
